@@ -1,0 +1,10 @@
+;;hasil: teks;
+
+tetapkan umur: angka = 18;
+
+jika (umur < 18) { menampilkan("masih bocil") }
+selain jika (umur === 18) { menampilkan("baru naik2 an") }
+selain { menampilkan("udah tua-an bjir") }
+
+untuk (buatkan i: angka = 0; i < 100; i++) { jika (i===5) { keluar } menampilkan(i) }
+

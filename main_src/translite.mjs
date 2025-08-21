@@ -51,6 +51,7 @@ export class TransliteBind {
         };
         
         this.sintax = `
+// default sintax
 const readline = await import('readline');
 const rl = readline.createInterface({
     input: process.stdin,
@@ -532,7 +533,7 @@ function menkonfirmasi(...question) {
         
         result = result.replace(
             /(\s*)impor\s+\((['"`][^'"`]+['"`])\)/g,
-            "$1await import($2);"
+            "$1import($2);"
         );
         // 6. Handle any remaining 'sebagai' → 'as' (for edge cases)
         result = result.replace(

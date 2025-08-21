@@ -1,7 +1,0 @@
-dari 'fs' impor fs
-
-menampilkan(fs)
-
-tetapkan hasil: teks = menunggu menanyakan("siapakah kamu: ")
-
-console.log(hasil)
