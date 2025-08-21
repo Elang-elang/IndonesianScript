@@ -5,7 +5,7 @@
     "type": "module",
     "author": "Elang Muhammad",
     "bin": {
-        "isc": "./main_src/running.js",
+        "isc": "./main_src/running.js"
     },
     "dependencies": {
         "child_process": "^1.0.2",
@@ -18,5 +18,5 @@
     "keyworld": [
         "indonesian", "indo", "script", "sc", "indonesianscript", "indosc", "is"
     ],
-    "license": "MIT",
+    "license": "MIT"
 }

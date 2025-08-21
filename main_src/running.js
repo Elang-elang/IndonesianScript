@@ -246,11 +246,11 @@ const handleTranspileMode = async (argv, transliterator) => {
         console.log('Transliteration completed');
         console.log('Starting TypeScript transpilation...');
     }
-
     // Transpile TypeScript
     const transpileResult = transpileTypeScript(transliteratedCode);
     
     if (!transpileResult.success) {
+        console.log(`Sintax:\n${'='.repeat(50)}\n${transpileResult.code}\n${'='.repeat(50)}\n`);
         console.error('TypeScript compilation errors:');
         transpileResult.errors.forEach(error => console.error(`  • ${error}`));
         throw new Error('TypeScript transpilation failed');
@@ -297,6 +297,7 @@ const handleRunMode = async (argv, transliterator) => {
             
             if (!transpileResult.success) {
                 console.error('TypeScript compilation errors:');
+                console.log(`Sintax:\n${'='.repeat(50)}\n${transpileResult.code}\n${'='.repeat(50)}\n`);
                 transpileResult.errors.forEach(error => console.error(`  • ${error}`));
                 return;
             }

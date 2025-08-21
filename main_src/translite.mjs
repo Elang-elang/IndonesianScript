@@ -41,13 +41,17 @@ export class TransliteBind {
             'lebihAtauSamaDari': '>=',
             'kurangAtauSamaDari': '<=',
             'tipeDari': 'typeof',
+            'tipe': 'typeof',
             'simpan': 'this',
+            'simpanan': 'this',
             'lempar': 'throw',
-            'baru': 'new',
+            'panggil': 'new',
             'keluar': 'break',
-            'lanjut': 'continue',
-            'kembali': 'return',
-            'kelas': 'class'
+            'lanjutkan': 'continue',
+            'kembalikan': 'return',
+            'kelas': 'class',
+            'klas': 'class',
+            'ekstenti': 'extention',
         };
         
         this.sintax = `
@@ -68,10 +72,16 @@ function menanyakan(...question) {
 
 function menkonfirmasi(...question) {
     return new Promise((resolve) => {
-        rl.question(\`$\{question ?? question : "apakah kamu setujuh? "\} [Y/N]: \`, (answer) => {
-            return answer.toLowerCase() === 'y' ?? 'true': 'false'
+        rl.question(\`$\{
+            question ? question : "apakah kamu setujuh? "
+        \} [Y/N]: \`, (answer) => {
+            return answer.toLowerCase() === 'y' ? true: false
         }); 
     }); 
+}
+
+function panjang(item) {
+    return item.length
 }
 
 `;
@@ -579,8 +589,8 @@ function menkonfirmasi(...question) {
                 const ts_keyword = this.otherKeyworld[indo_keyword];
                 
                 // Use word boundaries (\b) for better precision
-                const pattern = new RegExp(`([^])\\b\\s*${this.escapeRegex(indo_keyword)}\\b\\s*([^])`, "g");
-                result = result.replace(pattern, `$1 ${ts_keyword} $2`);
+                const pattern = new RegExp(`([^])\\b(\\s+|\\W*|\\D*|\\S*)${this.escapeRegex(indo_keyword)}\\b(\\s+|\\W*|\\D*|\\S*)([^])`, "g");
+                result = result.replace(pattern, `$1 $2${ts_keyword}$3 $4`);
             }
         }
         
