@@ -1,5 +1,5 @@
 {
-    "name": "@elang_muhammad/IndonesianScript",
+    "name": "@elang_muhammad/indonesianscript",
     "version": "0.0.1",
     "description": "The Indonesian promming language from the creative Elang Muhammad",
     "type": "module",
@@ -27,5 +27,6 @@
         "indonesianscript",
         "indosc",
         "is"
-    ]
+    ],
+    "MIT": "LICENSE"
 }
