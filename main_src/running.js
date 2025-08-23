@@ -288,6 +288,8 @@ const handleRunMode = async (argv, transliterator) => {
             const rawCode = readFileSync(inputFile, 'utf8');
             const transliteratedCode = transliterator.translite(rawCode);
             
+            console.log(`Raw Sintax:\n${'='.repeat(50)}\n${transliteratedCode}\n${'='.repeat(50)}\n`);
+            
             if (!transliteratedCode) {
                 throw new Error('Transliteration resulted in empty code');
             }

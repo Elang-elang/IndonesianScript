@@ -1,11 +1,15 @@
 {
     "name": "@elang_muhammad/IndonesianScript",
-    "version": "0.1.0-beta",
+    "version": "0.0.1",
     "description": "The Indonesian promming language from the creative Elang Muhammad",
     "type": "module",
     "author": "Elang Muhammad",
     "bin": {
-        "isc": "./main_src/running.js"
+        "isc": "main_src/running.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Elang-elang/IndonesianScript"
     },
     "dependencies": {
         "child_process": "^1.0.2",
@@ -15,8 +19,13 @@
         "vm": "^0.1.0",
         "yargs": "^18.0.0"
     },
-    "keyworld": [
-        "indonesian", "indo", "script", "sc", "indonesianscript", "indosc", "is"
-    ],
-    "license": "MIT"
+    "keywords": [
+        "indonesian",
+        "indo",
+        "script",
+        "sc",
+        "indonesianscript",
+        "indosc",
+        "is"
+    ]
 }

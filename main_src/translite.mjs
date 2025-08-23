@@ -2,8 +2,11 @@ export class TransliteBind {
     constructor() {
         this.keyworld = {
             "variabel": "var",
+            "var": "var",
             "buatkan": "let",
-            "tetapkan": "const"
+            "buat": "let",
+            "tetapkan": "const",
+            "tetap": "const"
         };
 
         this.type = {
@@ -51,12 +54,13 @@ export class TransliteBind {
             'kembalikan': 'return',
             'kelas': 'class',
             'klas': 'class',
-            'ekstenti': 'extention',
+            'ekstenti': 'extends',
+            'penetapan': 'constanta'
         };
         
         this.sintax = `
 // default sintax
-const readline = await import('readline');
+import * as readline from 'readline';
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -64,7 +68,7 @@ const rl = readline.createInterface({
 
 function menanyakan(...question) {
     return new Promise((resolve) => {
-        rl.question(question, (answer) => {
+        rl.question(question.join(' '), (answer) => { // Fixed: join questions
             resolve(answer);
         }); 
     }); 
@@ -72,16 +76,16 @@ function menanyakan(...question) {
 
 function menkonfirmasi(...question) {
     return new Promise((resolve) => {
-        rl.question(\`$\{
-            question ? question : "apakah kamu setujuh? "
-        \} [Y/N]: \`, (answer) => {
-            return answer.toLowerCase() === 'y' ? true: false
+        rl.question(\`\${
+            question.length > 0 ? question.join(' ') : "apakah kamu setujuh? " // Fixed: join questions and check length
+        } [Y/N]: \`, (answer) => {
+            resolve(answer.toLowerCase() === 'y'); // Fixed: added resolve()
         }); 
     }); 
 }
 
 function panjang(item) {
-    return item.length
+    return item.length;
 }
 
 `;
@@ -118,7 +122,7 @@ function panjang(item) {
         // 8. Clean up
         // result = this.cleanupResult(result);
         
-        result = `${this.sintax}\n${result}`
+        result = `${this.sintax}\n${result}`;
 
         return result;
     }
@@ -168,8 +172,6 @@ function panjang(item) {
                 
                 for (const indo_type in this.type) {
                     if (this.type.hasOwnProperty(indo_type)) {
-                        const ts_type = this.type[indo_type];
-                
                         // Basic variables
                         const basicPattern = new RegExp(
                             `\\b(${this.escapeRegex(indo_keyword)})\\s+(\\w+)\\s*:\\s*(${this.escapeRegex(indo_type)})\\s*=\\s*([^;]+);?`,
@@ -572,12 +574,12 @@ function panjang(item) {
         let result = code.replace(
             /(\s+)label\s+(\w+)\s+\{/g,
             "$1label $2 {"
-        )
-        result = code.replace(
+        );
+        result = result.replace( // Fixed: use result instead of code
             /(\s+)tatapmuka\s+(\w+)\s+\{/g,
             "$1interface $2 {"
-        )
-        return result
+        );
+        return result;
     }
     
     TransKeyword(code) {
@@ -588,42 +590,31 @@ function panjang(item) {
             if (this.otherKeyworld.hasOwnProperty(indo_keyword)) {
                 const ts_keyword = this.otherKeyworld[indo_keyword];
                 
-                // Use word boundaries (\b) for better precision
-                const pattern = new RegExp(`([^])\\b(\\s+|\\W*|\\D*|\\S*)${this.escapeRegex(indo_keyword)}\\b(\\s+|\\W*|\\D*|\\S*)([^])`, "g");
-                result = result.replace(pattern, `$1 $2${ts_keyword}$3 $4`);
+                // Fixed: Simplified regex pattern for better matching
+                const pattern = new RegExp(`\\b${this.escapeRegex(indo_keyword)}\\b`, "g");
+                result = result.replace(pattern, ts_keyword);
             }
         }
-        
         return result;
     }
     
     TransKeyString(code) {
         let result = code;
         
-        // Template literal with variables k"...{variable}..." → `...${variable}...`
-        result = result.replace(
-            /k(["'`])([^]*?)\{([^]*?)\}([^]*?)\1/g,
-            '`$2\$\{$3\}$4`'
-        );
-        
-        // Multiple variable interpolation
+        // Template literal k"...{variable}..." → `...${variable}...`
         result = result.replace(
             /k(["'`])([^]*?)\1/g,
             (match, quote, content) => {
                 // Replace all {variable} patterns with ${variable}
-                const processedContent = content.replace(/\{([^]*?)\}/g, '\$\{$1\}');
+                const processedContent = content.replace(/\{([^}]*?)\}/g, '${$1}');
                 return '`' + processedContent + '`';
             }
         );
         
-        // Template literal k"..." → `...`
-        result = result.replace(
-            /k(["'`])([^]*?)\1/g,
-            '`$2`'
-        );
-        
         return result;
     }
+    
+    // Fixed: Removed unused ModuleFuncStatement method
     
     cleanupResult(result) {
         return result
@@ -718,7 +709,9 @@ function panjang(item) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = TransliteBind;
 }
-const Translite = new TransliteBind();
+
+// Fixed: Create instance and export function correctly
+const transliteInstance = new TransliteBind();
 export function translite(code) {
-    return translite.translite(code);
+    return transliteInstance.translite(code);
 }
